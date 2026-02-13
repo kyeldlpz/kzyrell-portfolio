@@ -47,32 +47,37 @@ export const ArcadeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const context = state.context as ArcadeContext;
   const isTransitioning = state.matches('transitioning');
 
-  // Start music on first user interaction (browsers block autoplay)
+  // Track first user interaction (browsers block autoplay until interaction)
   useEffect(() => {
-    const startMusicOnInteraction = () => {
+    const trackInteraction = () => {
       hasUserInteracted.current = true;
-      soundManager.setEnabled(true);
-      soundManager.playMusic();
-      // Remove listener after first interaction
-      document.removeEventListener('click', startMusicOnInteraction);
-      document.removeEventListener('keydown', startMusicOnInteraction);
+      // Try to play music if sound is enabled
+      if (context.soundEnabled) {
+        soundManager.playMusic();
+      }
+      document.removeEventListener('click', trackInteraction);
+      document.removeEventListener('keydown', trackInteraction);
     };
 
-    document.addEventListener('click', startMusicOnInteraction);
-    document.addEventListener('keydown', startMusicOnInteraction);
+    document.addEventListener('click', trackInteraction);
+    document.addEventListener('keydown', trackInteraction);
 
     return () => {
-      document.removeEventListener('click', startMusicOnInteraction);
-      document.removeEventListener('keydown', startMusicOnInteraction);
+      document.removeEventListener('click', trackInteraction);
+      document.removeEventListener('keydown', trackInteraction);
     };
-  }, []);
+  }, [context.soundEnabled]);
 
-  // Sync sound manager with state and control background music
+  // Control music with the sound toggle button
   useEffect(() => {
     soundManager.setEnabled(context.soundEnabled);
-    if (context.soundEnabled && hasUserInteracted.current) {
-      soundManager.playMusic();
-    } else if (!context.soundEnabled) {
+    
+    if (context.soundEnabled) {
+      // Only play if user has interacted (browser requirement)
+      if (hasUserInteracted.current) {
+        soundManager.playMusic();
+      }
+    } else {
       soundManager.stopMusic();
     }
   }, [context.soundEnabled]);
