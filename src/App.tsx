@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import About from './components/About';
@@ -7,9 +7,13 @@ import Projects from './components/Projects';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import AllProjects from './pages/AllProjects';
+import LoadingScreen from './components/LoadingScreen';
 
 function HomePage() {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const handleLoadingDone = useCallback(() => setLoading(false), []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,6 +42,7 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-bg text-foreground">
+      {loading && <LoadingScreen onDone={handleLoadingDone} />}
       <div
         className="fixed top-0 left-0 h-0.5 bg-accent z-[60] transition-[width] duration-150"
         style={{ width: `${scrollProgress}%` }}
