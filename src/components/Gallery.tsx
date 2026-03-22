@@ -96,9 +96,11 @@ export default function Gallery() {
 
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto scrollbar-hide px-2"
+          className="flex gap-3 overflow-x-hidden scrollbar-hide px-2"
           onMouseEnter={() => { pausedRef.current = true; }}
           onMouseLeave={() => { pausedRef.current = false; }}
+          onTouchStart={() => { pausedRef.current = true; }}
+          onTouchEnd={() => { pausedRef.current = false; }}
         >
           {[...images, ...images, ...images].map((img, i) => (
             <button
