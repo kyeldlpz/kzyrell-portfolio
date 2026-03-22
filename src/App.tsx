@@ -1,109 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { ArcadeProvider, useArcade } from './context/ArcadeContext';
-import { MainLayout } from './components/layout';
-import { LoadingScreen, PageTransition } from './components/ui/LoadingScreen';
-import {
-  HomeSection,
-  AboutSection,
-  ProjectsSection,
-  SkillsSection,
-  AchievementsSection,
-  ContactSection,
-} from './components/sections';
-import { MemoryGame } from './components/games';
+import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import About from './components/About';
+import SkillsExperience from './components/SkillsExperience';
+import Projects from './components/Projects';
+import Gallery from './components/Gallery';
+import Footer from './components/Footer';
+import AllProjects from './pages/AllProjects';
 
-// Section renderer component
-const SectionRenderer: React.FC = () => {
-  const { currentSection, isTransitioning } = useArcade();
-  const [showMiniGame, setShowMiniGame] = useState(false);
+function HomePage() {
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  const renderSection = () => {
-    switch (currentSection) {
-      case 'home':
-        return <HomeSection />;
-      case 'about':
-        return <AboutSection />;
-      case 'projects':
-        return <ProjectsSection />;
-      case 'skills':
-        return <SkillsSection />;
-      case 'achievements':
-        return <AchievementsSection />;
-      case 'contact':
-        return <ContactSection />;
-      default:
-        return <HomeSection />;
-    }
-  };
-
-  // Easter egg: Konami code for mini-game
   useEffect(() => {
-    const konamiCode = [
-      'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-      'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-      'KeyB', 'KeyA'
-    ];
-    let konamiIndex = 0;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === konamiCode[konamiIndex]) {
-        konamiIndex++;
-        if (konamiIndex === konamiCode.length) {
-          setShowMiniGame(true);
-          konamiIndex = 0;
-        }
-      } else {
-        konamiIndex = 0;
-      }
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(h > 0 ? (window.scrollY / h) * 100 : 0);
     };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
-    <>
-      <PageTransition isTransitioning={isTransitioning}>
-        {renderSection()}
-      </PageTransition>
-      
-      {/* Mini-game modal */}
-      <AnimatePresence>
-        {showMiniGame && (
-          <MemoryGame onClose={() => setShowMiniGame(false)} />
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
-
-// Main App component
-const AppContent: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  return (
-    <>
-      <LoadingScreen 
-        isLoading={isLoading} 
-        minDuration={2500}
-        onComplete={() => setIsLoading(false)}
+    <div className="min-h-screen bg-bg text-foreground">
+      <div
+        className="fixed top-0 left-0 h-0.5 bg-accent z-[60] transition-[width] duration-150"
+        style={{ width: `${scrollProgress}%` }}
       />
-      
-      {!isLoading && (
-        <MainLayout>
-          <SectionRenderer />
-        </MainLayout>
-      )}
-    </>
+      <Navbar />
+      <div className="pt-16">
+        <div className="reveal"><About /></div>
+        <div className="reveal"><SkillsExperience /></div>
+        <div className="reveal"><Projects /></div>
+        <div className="reveal"><Gallery /></div>
+      </div>
+      <Footer />
+    </div>
   );
-};
+}
 
 function App() {
   return (
-    <ArcadeProvider>
-      <AppContent />
-    </ArcadeProvider>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/projects" element={<AllProjects />} />
+    </Routes>
   );
 }
 
