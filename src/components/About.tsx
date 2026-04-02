@@ -1,8 +1,8 @@
 const timeline = [
-  { year: 'Now', title: 'Freelance Programmer | Developer', org: 'S.P Madrid & Associates' },
-  { year: '2026', title: 'AI Prompt Engineer Intern', org: 'S.P Madrid & Associates' },
-  { year: '2022', title: 'Computer Engineering Student', org: 'Pamantasan ng Lungsod ng Maynila (PLM)' },
-  { year: '2020', title: 'Started Coding Journey', org: 'HTML & CSS — "Hello World"' },
+  { year: 'Now', role: 'Freelance Developer', org: 'Self-employed', detail: 'Full-stack freelance work across web, cloud, and AI projects.' },
+  { year: '2026', role: 'Cloud & Infra Associate', org: 'Cloud Club – Haribon', detail: 'AWS architecture, serverless pipelines, and cloud best practices.' },
+  { year: '2022', role: 'Computer Engineering', org: 'Polytechnic University of the Philippines', detail: 'Studying systems design, embedded computing, and software engineering.' },
+  { year: '2020', role: 'Self-taught Developer', org: 'Independent', detail: 'Started learning web development and building personal projects.' },
 ];
 
 export default function About() {
@@ -10,44 +10,60 @@ export default function About() {
     <section id="about" className="section-container">
       <div className="section-label">About</div>
 
-      <h2 className="about-heading mb-12">
-        Engineer at heart, <em>builder&nbsp;by&nbsp;nature</em>.
+      <h2 className="about-heading mb-10">
+        Engineer at heart,&nbsp;<em>builder by nature</em>.
       </h2>
 
       <div className="grid md:grid-cols-[1.4fr_1fr] gap-14 items-start">
-        {/* Left — Bio + Tags */}
-        <div className="space-y-5">
-          <p className="text-base leading-relaxed text-secondary">
-            Computer Engineering student and freelance developer serving as
-            Cloud &amp; Infrastructure Associate at Cloud Club — Haribon. Passionate about
-            web development, AI, and cloud technologies.
+        {/* Left — Bio */}
+        <div>
+          <p className="text-base leading-[1.85] mb-5" style={{ color: 'var(--text-secondary)' }}>
+            I&apos;m a Computer Engineering student and freelance developer, currently serving as
+            Cloud &amp; Infrastructure Associate at Cloud Club – Haribon. I have a growing passion
+            for web development, artificial intelligence, and cloud technologies, and I&apos;m actively
+            building my foundation in modern web technologies while exploring how AI and cloud
+            services can power scalable, intelligent applications.
           </p>
-          <p className="text-base leading-relaxed text-secondary">
-            Building across front-end, back-end, and AWS while experimenting with
-            emerging tools at the intersection of web, AI, and cloud infrastructure.
+          <p className="text-base leading-[1.85] mb-5" style={{ color: 'var(--text-secondary)' }}>
+            Through hands-on projects, freelance work, and continuous learning, I&apos;m developing
+            skills across front-end and back-end development alongside a growing understanding
+            of AWS services and cloud best practices. I enjoy experimenting with new tools,
+            frameworks, and emerging technologies, especially at the intersection of web, AI,
+            and cloud infrastructure.
           </p>
-          <div className="flex flex-wrap gap-2 pt-2">
-            <span className="tag">React</span>
-            <span className="tag">TypeScript</span>
-            <span className="tag">Tailwind CSS</span>
-            <span className="tag">AWS</span>
-            <span className="tag">Python</span>
-            <span className="tag">Cloud</span>
+          <p className="text-base leading-[1.85] mb-7" style={{ color: 'var(--text-secondary)' }}>
+            Driven by curiosity and a commitment to growth, I aim to become a versatile developer
+            capable of designing and deploying efficient, secure, and user-focused applications
+            powered by modern cloud solutions.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {['JavaScript', 'TypeScript', 'React', 'Next.js', 'Python', 'FastAPI', 'Node.js', 'AWS', 'Tailwind CSS', 'PostgreSQL'].map((tech) => (
+              <span key={tech} className="tag">{tech}</span>
+            ))}
           </div>
         </div>
 
-        {/* Right — Experience Timeline */}
+        {/* Right — Experience */}
         <div>
           <div className="section-label">Experience</div>
-          {timeline.map((item, i) => (
-            <div key={i} className="flex gap-5 py-3 border-t border-border last:border-b">
-              <span className="font-mono text-[11px] text-muted w-10 shrink-0 pt-0.5">{item.year}</span>
-              <div>
-                <h3 className="text-sm font-medium text-foreground">{item.title}</h3>
-                <p className="text-xs text-muted mt-0.5">{item.org}</p>
+          <div className="flex flex-col gap-6">
+            {timeline.map((item) => (
+              <div key={item.year} className="flex gap-5">
+                <span className="shrink-0 font-mono text-xs tracking-wider pt-1" style={{ color: 'var(--text-muted)', minWidth: '3rem' }}>
+                  {item.year}
+                </span>
+                <div>
+                  <h4 className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{item.role}</h4>
+                  <span className="block text-xs mt-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace", letterSpacing: '0.04em' }}>
+                    {item.org}
+                  </span>
+                  <p className="text-sm mt-1.5 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {item.detail}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

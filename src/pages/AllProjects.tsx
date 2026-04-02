@@ -1,59 +1,63 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { projects } from '../data/projects';
 import CustomCursor from '../components/CustomCursor';
-import { useTheme } from '../hooks/useTheme';
+import { projects } from '../data/projects';
 
 export default function AllProjects() {
-  const { isDark, toggle } = useTheme();
-
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = 'All Projects | Kzyrell Dela Paz';
   }, []);
 
   return (
-    <div className="min-h-screen bg-bg text-foreground">
+    <div className="page-shell min-h-screen bg-bg text-ink">
+      <div className="page-orb page-orb-one" />
+      <div className="page-orb page-orb-two" />
+      <div className="page-grid" />
       <CustomCursor />
-      <div className="max-w-[1100px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <Link to="/" className="inline-flex items-center gap-1 text-xs text-accent hover:text-accent-hover transition-colors font-medium">
+      <div className="section-container py-24">
+        <Link to="/" className="section-link inline-flex items-center gap-2 mb-8">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15 18l-6-6 6-6" />
             </svg>
             Back
-          </Link>
-          <button type="button" onClick={toggle} className="theme-toggle" aria-label="Toggle theme">
-            <span className="theme-toggle-icon" aria-hidden="true">{isDark ? '☀' : '☾'}</span>
-            <span>{isDark ? 'Light' : 'Dark'}</span>
-          </button>
+        </Link>
+
+        <div className="contact-panel mb-12">
+          <div className="contact-copy">
+            <div className="section-label mb-5">Archive</div>
+            <h1 className="projects-heading mb-4">
+              A broader look at the <em>work</em>
+            </h1>
+            <p className="section-intro max-w-2xl">
+              Infrastructure studies, full-stack delivery, and systems projects that shaped
+              how I think about reliability, clarity, and user-facing execution.
+            </p>
+          </div>
         </div>
 
-        <h1 className="section-title text-2xl">All Projects</h1>
-
-        <div className="space-y-4">
-          {projects.map((project) => (
-            <div key={project.title} className="card flex flex-col gap-4 md:flex-row">
-              <div className={`w-full md:w-64 flex-shrink-0 self-start rounded-lg overflow-hidden border border-border aspect-video flex items-center justify-center ${project.cover ? 'bg-surface' : 'bg-white'}`}>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {projects.map((project, index) => (
+            <article key={project.title} className="project-card">
+              <div className="project-card-media">
                 <img
                   src={project.image}
                   alt={project.title}
                   loading="lazy"
-                  className={`w-full h-full ${project.cover ? 'object-cover' : 'object-contain'}`}
+                  className={project.cover ? 'w-full h-full object-cover' : 'w-full h-full object-contain bg-white'}
                 />
               </div>
-              <div className="flex-1 min-w-0 space-y-2">
-                <h3 className="text-sm font-semibold text-foreground">{project.title}</h3>
-                <p className="text-xs text-muted leading-relaxed">{project.description}</p>
-                <div className="flex flex-wrap gap-1.5">
+              <div className="project-card-body">
+                <span className="project-num">Project {String(index + 1).padStart(2, '0')}</span>
+                <h2 className="project-title mt-3">{project.title}</h2>
+                <p className="project-card-desc">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mt-6">
                   {project.services.map((service) => (
-                    <span key={service} className="tag text-[11px]">
-                      {service}
-                    </span>
+                    <span key={service} className="tag">{service}</span>
                   ))}
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

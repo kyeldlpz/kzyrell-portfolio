@@ -109,6 +109,85 @@
     mask-image: radial-gradient(circle at center, black 30%, transparent 88%);
   }
 
+  .nav-shell {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 1rem 1rem 0;
+  }
+
+  .nav-inner {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+  }
+
+  .nav-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: var(--text-primary);
+    color: var(--bg);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+  }
+
+  .nav-brand-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.2rem;
+    padding: 0 0.85rem;
+    border-radius: 999px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--accent-light);
+  }
+
   .section-container {
     position: relative;
     z-index: 1;
@@ -574,6 +653,76 @@
     color: var(--text-secondary);
   }
 
+  .about-visual {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .about-portrait {
+    overflow: hidden;
+    border-radius: 1.6rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.08);
+  }
+
+  .about-note,
+  .about-panel,
+  .contact-panel {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(18px);
+  }
+
+  .about-note {
+    padding: 1.25rem 1.35rem;
+    border-radius: 1.25rem;
+  }
+
+  .about-note p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  .about-note-label {
+    display: inline-block;
+    margin-bottom: 0.7rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .about-panel {
+    padding: 2rem;
+    border-radius: 1.7rem;
+  }
+
+  .about-metric-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .about-metric-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--surface) 84%, transparent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
   /* ─── PROJECT LIST ITEM ──────────────────────── */
   .project-item {
     display: grid;
@@ -665,6 +814,18 @@
     color: var(--text-secondary);
   }
 
+  .contact-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    padding: 2rem;
+    border-radius: 1.7rem;
+  }
+
+  .contact-copy {
+    min-width: 0;
+  }
+
   /* ─── NAV CTA ────────────────────────────────── */
   .nav-cta {
     font-size: 12px;
@@ -699,6 +860,140 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* ─── LOADING SCREEN ─────────────────────────── */
+  .loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .loading-screen.is-fading {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(1.03);
+    pointer-events: none;
+  }
+
+  .loading-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loading-center {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    pointer-events: none;
+  }
+
+  /* ── K brand mark (text) ──────────────────────── */
+  .loading-k-text {
+    position: absolute;
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(5rem, 18vw, 10rem);
+    color: var(--accent);
+    line-height: 1;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+                filter 0.5s ease, text-shadow 0.5s ease;
+    filter: blur(8px);
+    text-shadow: 0 0 0px transparent;
+  }
+  .loading-k-text.is-visible {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  .loading-k-text.is-glowing {
+    text-shadow:
+      0 0 20px color-mix(in srgb, var(--accent) 50%, transparent),
+      0 0 60px color-mix(in srgb, var(--accent) 25%, transparent);
+    transform: scale(1.06);
+    transition: text-shadow 0.5s ease, transform 0.5s ease;
+  }
+  .loading-k-text.is-exiting {
+    opacity: 0;
+    transform: scale(0.3);
+    filter: blur(12px);
+    text-shadow: 0 0 40px color-mix(in srgb, var(--accent) 40%, transparent);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.6, 0, 0.4, 1),
+                filter 0.45s ease, text-shadow 0.45s ease;
+  }
+
+  /* ── Name row ────────────────────────────────── */
+  .loading-name-row {
+    display: flex;
+    align-items: baseline;
+    line-height: 1;
+    animation: nameEnter 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  @keyframes nameEnter {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.95);
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  .loading-name-initial {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  .loading-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .loading-letter {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease, filter 0.5s ease;
+  }
+  .loading-letter.is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  .loading-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+  }
+  .loading-subtitle.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -6,8 +6,7 @@ export default function Contact() {
         Let's build <em>something</em>.
       </h2>
       <p className="text-base leading-relaxed text-secondary max-w-lg mx-auto mb-10">
-        Available for internships, developer roles, freelance collaboration, and cloud-focused
-        product work.
+        Available for full time, developer roles, freelance collaboration, vibe coding :)
       </p>
       <div className="flex flex-wrap gap-3 justify-center">
         <a href="mailto:kzyrellyan@gmail.com" className="contact-link">Email</a>

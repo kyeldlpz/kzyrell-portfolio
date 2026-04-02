@@ -1,26 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import CustomCursor from './components/CustomCursor';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Marquee from './components/Marquee';
+import { Route, Routes } from 'react-router-dom';
 import About from './components/About';
-import SkillsExperience from './components/SkillsExperience';
-import Projects from './components/Projects';
-import Gallery from './components/Gallery';
 import Contact from './components/Contact';
+import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
-import AllProjects from './pages/AllProjects';
+import Gallery from './components/Gallery';
+import Hero from './components/Hero';
 import LoadingScreen from './components/LoadingScreen';
-
-function Divider() {
-  return <div className="section-divider" />;
-}
+import Marquee from './components/Marquee';
+import Navbar from './components/Navbar';
+import Projects from './components/Projects';
+import SkillsExperience from './components/SkillsExperience';
+import AllProjects from './pages/AllProjects';
 
 function HomePage() {
   const [loading, setLoading] = useState(true);
 
-  const handleLoadingDone = useCallback(() => setLoading(false), []);
+  const handleLoadingDone = useCallback(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     document.title = 'Kzyrell Dela Paz';
@@ -33,37 +31,38 @@ function HomePage() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.12 },
     );
 
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, []);
+  }, [loading]);
 
   return (
-    <div className="min-h-screen bg-bg text-foreground">
+    <div className="page-shell min-h-screen bg-bg text-ink">
       {loading && <LoadingScreen onDone={handleLoadingDone} />}
+      <div className="page-orb page-orb-one" />
+      <div className="page-orb page-orb-two" />
+      <div className="page-grid" />
       <CustomCursor />
       <Navbar />
-      <div className="pt-16">
-        <Hero />
-        <Marquee />
-        <div className="reveal"><About /></div>
-        <Divider />
-        <div className="reveal"><Projects /></div>
-        <Divider />
-        <div className="reveal"><Gallery /></div>
-        <Divider />
-        <div className="reveal"><SkillsExperience /></div>
-        <Divider />
-        <div className="reveal"><Contact /></div>
-      </div>
+      <Hero />
+      <Marquee />
+      <div className="reveal"><About /></div>
+      <div className="section-divider" />
+      <div className="reveal"><Projects /></div>
+      <div className="section-divider" />
+      <div className="reveal"><Gallery /></div>
+      <div className="section-divider" />
+      <div className="reveal"><SkillsExperience /></div>
+      <div className="section-divider" />
+      <div className="reveal"><Contact /></div>
       <Footer />
     </div>
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -71,5 +70,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;
