@@ -1,76 +1,82 @@
 import { useState, useEffect } from 'react';
 
-const FULL_NAME = 'KZYRELL DELA PAZ';
-const SUBTITLE = 'Computer Engineer Student | Developer';
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
-const SCRAMBLE_TICKS = 4; // scramble cycles before revealing each letter
-const TICK_MS = 40;
-
-function randomChar() {
-  return CHARS[Math.floor(Math.random() * CHARS.length)];
-}
-
 export default function LoadingScreen({ onDone }: { onDone: () => void }) {
-  const [displayed, setDisplayed] = useState('');
-  const [resolved, setResolved] = useState(0); // how many chars are locked in
-  const [tick, setTick] = useState(0);
-  const [showSubtitle, setShowSubtitle] = useState(false);
-  const [fading, setFading] = useState(false);
+  const [phase, setPhase] = useState<'line' | 'text' | 'split' | 'done'>('line');
 
   useEffect(() => {
-    if (resolved >= FULL_NAME.length) {
-      // All resolved — show subtitle
-      const t1 = setTimeout(() => setShowSubtitle(true), 300);
-      const t2 = setTimeout(() => setFading(true), 1200);
-      return () => { clearTimeout(t1); clearTimeout(t2); };
-    }
-
-    const timer = setTimeout(() => {
-      const nextChar = FULL_NAME[resolved];
-
-      if (nextChar === ' ') {
-        // Spaces resolve instantly
-        setResolved((r) => r + 1);
-        setTick(0);
-        return;
-      }
-
-      if (tick < SCRAMBLE_TICKS) {
-        // Show scrambled character at current position
-        setDisplayed(FULL_NAME.slice(0, resolved) + randomChar());
-        setTick((t) => t + 1);
-      } else {
-        // Lock in correct character
-        setDisplayed(FULL_NAME.slice(0, resolved + 1));
-        setResolved((r) => r + 1);
-        setTick(0);
-      }
-    }, TICK_MS);
-
-    return () => clearTimeout(timer);
-  }, [resolved, tick]);
+    const t1 = setTimeout(() => setPhase('text'), 500);
+    const t2 = setTimeout(() => setPhase('split'), 1400);
+    const t3 = setTimeout(() => setPhase('done'), 2400);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
 
   useEffect(() => {
-    if (fading) {
-      const timeout = setTimeout(onDone, 500);
-      return () => clearTimeout(timeout);
+    if (phase === 'done') {
+      const t = setTimeout(onDone, 100);
+      return () => clearTimeout(t);
     }
-  }, [fading, onDone]);
+  }, [phase, onDone]);
+
+  if (phase === 'done') return null;
+
+  const showText = phase === 'text' || phase === 'split';
+  const splitting = phase === 'split';
 
   return (
-    <div
-      className={`fixed inset-0 z-[100] bg-bg flex items-center justify-center transition-opacity duration-500 ${fading ? 'opacity-0' : 'opacity-100'}`}
-    >
-      <div className="text-center">
-        <pre className="font-mono text-accent text-lg sm:text-2xl md:text-3xl tracking-widest select-none">
-          {displayed}
-          <span className="animate-pulse">|</span>
-        </pre>
-        <p
-          className={`mt-4 text-xs sm:text-sm text-muted font-mono tracking-wide transition-opacity duration-500 ${showSubtitle ? 'opacity-100' : 'opacity-0'}`}
+    <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
+      {/* Top curtain */}
+      <div
+        className="absolute top-0 left-0 right-0 bg-bg transition-transform duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
+        style={{
+          height: '50vh',
+          transform: splitting ? 'translateY(-100%)' : 'translateY(0)',
+        }}
+      />
+      {/* Bottom curtain */}
+      <div
+        className="absolute bottom-0 left-0 right-0 bg-bg transition-transform duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
+        style={{
+          height: '50vh',
+          transform: splitting ? 'translateY(100%)' : 'translateY(0)',
+        }}
+      />
+
+      {/* Center content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+        {/* Expanding line */}
+        <div
+          className="h-px bg-foreground transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{
+            width: phase === 'line' ? '0px' : splitting ? '0px' : '80px',
+            opacity: splitting ? 0 : 1,
+          }}
+        />
+        {/* Name */}
+        <div
+          className="mt-5 overflow-hidden transition-all duration-500 ease-out"
+          style={{
+            maxHeight: showText ? '40px' : '0px',
+            opacity: showText && !splitting ? 1 : 0,
+            transform: showText && !splitting ? 'translateY(0)' : 'translateY(8px)',
+          }}
         >
-          {SUBTITLE}
-        </p>
+          <span className="font-serif text-lg tracking-[0.08em] text-foreground select-none">
+            Kzyrell Dela Paz
+          </span>
+        </div>
+        {/* Subtitle */}
+        <div
+          className="overflow-hidden transition-all duration-500 ease-out delay-100"
+          style={{
+            maxHeight: showText ? '24px' : '0px',
+            opacity: showText && !splitting ? 1 : 0,
+            transform: showText && !splitting ? 'translateY(0)' : 'translateY(8px)',
+          }}
+        >
+          <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-muted select-none">
+            Developer · Engineer
+          </span>
+        </div>
       </div>
     </div>
   );

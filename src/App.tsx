@@ -1,21 +1,30 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Marquee from './components/Marquee';
 import About from './components/About';
 import SkillsExperience from './components/SkillsExperience';
 import Projects from './components/Projects';
 import Gallery from './components/Gallery';
+import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AllProjects from './pages/AllProjects';
 import LoadingScreen from './components/LoadingScreen';
 
+function Divider() {
+  return <div className="section-divider" />;
+}
+
 function HomePage() {
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const handleLoadingDone = useCallback(() => setLoading(false), []);
 
   useEffect(() => {
+    document.title = 'Kzyrell Dela Paz';
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -31,28 +40,23 @@ function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(h > 0 ? (window.scrollY / h) * 100 : 0);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-bg text-foreground">
       {loading && <LoadingScreen onDone={handleLoadingDone} />}
-      <div
-        className="fixed top-0 left-0 h-0.5 bg-accent z-[60] transition-[width] duration-150"
-        style={{ width: `${scrollProgress}%` }}
-      />
+      <CustomCursor />
       <Navbar />
       <div className="pt-16">
+        <Hero />
+        <Marquee />
         <div className="reveal"><About /></div>
-        <div className="reveal"><SkillsExperience /></div>
+        <Divider />
         <div className="reveal"><Projects /></div>
+        <Divider />
         <div className="reveal"><Gallery /></div>
+        <Divider />
+        <div className="reveal"><SkillsExperience /></div>
+        <Divider />
+        <div className="reveal"><Contact /></div>
       </div>
       <Footer />
     </div>

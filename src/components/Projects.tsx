@@ -4,73 +4,73 @@ import { projects } from '../data/projects';
 
 export default function Projects() {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
-  const VISIBLE_COUNT = 4;
+  const visibleProjects = projects.slice(0, 4);
 
   const toggleExpand = (index: number) => {
-    setExpanded(prev => ({ ...prev, [index]: !prev[index] }));
+    setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
   };
-
-  const visibleProjects = projects.slice(0, VISIBLE_COUNT);
 
   return (
     <section id="projects" className="section-container">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="section-title !mb-0">Personal and Group Projects</h2>
-        {projects.length > VISIBLE_COUNT && (
-          <Link
-            to="/projects"
-            className="text-xs text-accent hover:text-accent-hover transition-colors font-medium flex items-center gap-1"
-          >
-            View All
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </Link>
-        )}
-      </div>
+      <div className="section-label">Personal and Group Projects</div>
+      <h2 className="projects-heading mb-4">
+        Projects with a stronger <em>technical backbone</em>
+      </h2>
+      <p className="text-base text-secondary mb-10">
+        Full-stack systems, AWS infrastructure, and hands-on engineering.
+      </p>
 
-      <div className="space-y-4">
-        {visibleProjects.map((project, i) => (
-          <div
-            key={i}
-            className="card flex flex-col md:flex-row gap-4"
-          >
-            <div className={`w-full md:w-60 flex-shrink-0 self-start rounded-lg overflow-hidden border border-border aspect-video flex items-center justify-center ${project.cover ? 'bg-surface' : 'bg-white'}`}>
-              <img
-                src={project.image}
-                alt={project.title}
-                className={`w-full h-full ${project.cover ? 'object-cover' : 'object-contain'}`}
-              />
-            </div>
-            <div className="flex-1 min-w-0 space-y-2">
-              <h3 className="text-sm font-semibold text-foreground">{project.title}</h3>
-              <p className={`text-xs text-muted leading-relaxed ${expanded[i] ? '' : 'line-clamp-3'}`}>
-                {project.description}
-              </p>
-              <button
-                onClick={() => toggleExpand(i)}
-                className="text-xs text-accent hover:text-accent-hover transition-colors font-medium"
-              >
-                {expanded[i] ? 'Show less' : 'Read more'}
-              </button>
-              <div className="flex flex-wrap gap-1.5">
-                {project.services.map(service => (
-                  <span key={service} className="tag text-[11px]">{service}</span>
-                ))}
+      <div>
+        {visibleProjects.map((project, index) => (
+          <div key={project.title}>
+            <div
+              className="project-item"
+              onClick={() => toggleExpand(index)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter') toggleExpand(index); }}
+            >
+              <span className="project-num">{String(index + 1).padStart(2, '0')}</span>
+              <div className="relative z-[1]">
+                <span className="project-title-name">{project.title}</span>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {project.services.map((service) => (
+                    <span key={service} className="project-meta">{service}</span>
+                  ))}
+                </div>
               </div>
+              <span className="project-arrow">↗</span>
             </div>
+            {expanded[index] && (
+              <div className="px-[76px] pb-6 text-sm leading-relaxed text-secondary">
+                {project.image && (
+                  <div className="mb-4 rounded-lg overflow-hidden border border-border">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      loading="lazy"
+                      className={`w-full h-auto ${project.cover ? 'object-cover' : 'object-contain bg-white'}`}
+                    />
+                  </div>
+                )}
+                <p>{project.description}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
+
+      {projects.length > visibleProjects.length && (
+        <div className="mt-8">
+          <Link to="/projects" className="section-link">
+            View all
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17L17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

@@ -1,36 +1,35 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
         bg: 'var(--bg)',
-        'bg-alt': 'var(--bg-secondary)',
         surface: 'var(--surface)',
-        'surface-light': 'var(--surface-hover)',
-        border: 'var(--border)',
-        'border-light': 'var(--border-hover)',
         foreground: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
         muted: 'var(--text-muted)',
-        subtle: 'var(--text-secondary)',
-        accent: {
-          DEFAULT: 'var(--accent)',
-          hover: 'var(--accent-hover)',
-          light: 'var(--accent-light)',
-        },
+        border: 'var(--border)',
+        accent: 'var(--accent)',
+        'accent-hover': 'var(--accent-hover)',
+        'accent-light': 'var(--accent-light)',
+        ink: 'var(--text-primary)',
+        'ink-muted': 'var(--text-secondary)',
+        'ink-faint': 'var(--text-muted)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'Consolas', 'monospace'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        serif: ['"DM Serif Display"', 'serif'],
+        mono: ['"DM Mono"', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',
         'slide-up': 'slideUp 0.6s ease-out forwards',
-        'marquee': 'marquee 30s linear infinite',
+        marquee: 'marquee 30s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -49,4 +48,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

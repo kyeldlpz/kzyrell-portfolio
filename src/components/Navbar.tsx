@@ -3,8 +3,8 @@ import { useTheme } from '../hooks/useTheme';
 
 const navLinks = [
   { label: 'About', href: '#about' },
-  { label: 'Skills & Experience', href: '#skills-experience' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Skills', href: '#skills-experience' },
   { label: 'Gallery', href: '#gallery' },
 ];
 
@@ -34,12 +34,12 @@ export default function Navbar() {
         scrolled ? 'bg-bg/90 backdrop-blur-md border-b border-border' : 'bg-transparent'
       }`}
     >
-      <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-        <a href="#" className="text-sm font-semibold text-accent">kzy.</a>
+      <div className="max-w-[1100px] mx-auto px-6 md:px-10 lg:px-12 py-3 flex items-center justify-between">
+        <a href="#" className="font-mono text-sm tracking-wide text-foreground">kzy.dev</a>
 
         <div className="hidden md:flex items-center gap-6">
           {navLinks.map(link => (
-            <a key={link.href} href={link.href} className="text-xs text-muted hover:text-accent transition-colors">{link.label}</a>
+            <a key={link.href} href={link.href} className="text-xs text-muted hover:text-foreground transition-colors">{link.label}</a>
           ))}
           <button onClick={toggle} className="text-muted hover:text-foreground transition-colors ml-1" aria-label="Toggle theme">
             {isDark ? (
@@ -48,6 +48,7 @@ export default function Navbar() {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
             )}
           </button>
+          <a href="#contact" className="nav-cta">Let's talk</a>
         </div>
 
         <div className="flex md:hidden items-center gap-2">
