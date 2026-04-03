@@ -1,5 +1,5 @@
 const timeline = [
-  { year: 'Now', role: 'Freelance Developer', org: 'Self-employed', detail: 'Full-stack freelance work across web, cloud, and AI projects.' },
+  { year: 'Now', role: 'Freelancer', org: 'S.P Madrid & Associates', detail: 'Full-stack freelance work across web, cloud, and AI projects.' },
   { year: '2026', role: 'Cloud & Infra Associate', org: 'Cloud Club – Haribon', detail: 'AWS architecture, serverless pipelines, and cloud best practices.' },
   { year: '2022', role: 'Computer Engineering', org: 'Pamantasan ng Lungsod ng Maynila', detail: 'Studying systems design, embedded computing, and software engineering.' },
   { year: '2020', role: 'Hello world!', org: 'Independent', detail: 'Started learning web development and building personal projects.' },
