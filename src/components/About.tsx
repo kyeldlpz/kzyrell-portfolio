@@ -1,6 +1,6 @@
 const timeline = [
   { year: 'Now', role: 'Freelancer', org: 'S.P Madrid & Associates', detail: 'Building website by agentic coding.' },
-  { year: '2026', role: 'Cloud & Infrastructure Associate', org: 'Cloud Club – Haribon', detail: 'AWS architecture, serverless pipelines, and cloud best practices.' },
+  { year: '2026', role: 'AI Prompt Engineering Intern', org: 'S.P Madrid & Associates', detail: 'Building websites as an AI Prompt Engineer Intern' },
   { year: '2022', role: 'Computer Engineering', org: 'Pamantasan ng Lungsod ng Maynila', detail: 'Studying systems design, embedded computing, and software engineering.' },
   { year: '2020', role: 'Hello world!', org: 'Independent', detail: 'Started learning web development and building personal projects.' },
 ];

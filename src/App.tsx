@@ -14,9 +14,10 @@ import SkillsExperience from './components/SkillsExperience';
 import AllProjects from './pages/AllProjects';
 
 function HomePage() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !sessionStorage.getItem('kzy-loaded'));
 
   const handleLoadingDone = useCallback(() => {
+    sessionStorage.setItem('kzy-loaded', '1');
     setLoading(false);
   }, []);
 

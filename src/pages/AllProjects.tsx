@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CustomCursor from '../components/CustomCursor';
 import { projects } from '../data/projects';
 
 export default function AllProjects() {
+  const navigate = useNavigate();
+  const [expanded, setExpanded] = useState<number | null>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = 'All Projects | Kzyrell Dela Paz';
@@ -16,12 +19,16 @@ export default function AllProjects() {
       <div className="page-grid" />
       <CustomCursor />
       <div className="section-container py-24">
-        <Link to="/" className="section-link inline-flex items-center gap-2 mb-8">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="section-link inline-flex items-center gap-2 mb-8"
+        >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15 18l-6-6 6-6" />
             </svg>
             Back
-        </Link>
+        </button>
 
         <div className="contact-panel mb-12">
           <div className="contact-copy">
@@ -36,28 +43,44 @@ export default function AllProjects() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div>
           {projects.map((project, index) => (
-            <article key={project.title} className="project-card">
-              <div className="project-card-media">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  className={project.cover ? 'w-full h-full object-cover' : 'w-full h-full object-contain bg-white'}
-                />
-              </div>
-              <div className="project-card-body">
-                <span className="project-num">Project {String(index + 1).padStart(2, '0')}</span>
-                <h2 className="project-title mt-3">{project.title}</h2>
-                <p className="project-card-desc">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {project.services.map((service) => (
-                    <span key={service} className="tag">{service}</span>
-                  ))}
+            <div key={project.title}>
+              <button
+                type="button"
+                className="project-item w-full text-left"
+                onClick={() => setExpanded(expanded === index ? null : index)}
+              >
+                <span className="font-mono text-xs tracking-wider relative z-[1]" style={{ color: 'var(--text-muted)' }}>
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div className="relative z-[1]">
+                  <span className="project-title-name">{project.title}</span>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {project.services.map((s) => (
+                      <span key={s} className="tag">{s}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </article>
+                <span className="project-arrow relative z-[1]">↗</span>
+              </button>
+
+              {expanded === index && (
+                <div className="grid md:grid-cols-[280px_1fr] gap-6 py-6 px-4" style={{ borderBottom: '1px solid var(--border)' }}>
+                  <div className="overflow-hidden rounded-lg" style={{ border: '1px solid var(--border)' }}>
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      loading="lazy"
+                      className={project.cover ? 'w-full h-full object-cover' : 'w-full h-full object-contain bg-white'}
+                    />
+                  </div>
+                  <p className="text-sm leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
+                    {project.description}
+                  </p>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>

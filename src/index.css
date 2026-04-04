@@ -4,15 +4,15 @@
 
 @layer base {
   :root {
-    --bg: #f6f2ea;
-    --surface: rgba(255, 255, 255, 0.72);
-    --border: rgba(26, 26, 24, 0.1);
-    --text-primary: #171715;
-    --text-secondary: #5f5a51;
-    --text-muted: #8d8579;
-    --accent: #8d6a39;
-    --accent-hover: #6f532d;
-    --accent-light: rgba(141, 106, 57, 0.1);
+    --bg: #f4f0e8;
+    --surface: rgba(255, 255, 255, 0.78);
+    --border: rgba(26, 26, 24, 0.14);
+    --text-primary: #1a1a18;
+    --text-secondary: #4a4539;
+    --text-muted: #7d7568;
+    --accent: #7a5c2e;
+    --accent-hover: #5e4722;
+    --accent-light: rgba(122, 92, 46, 0.1);
     color-scheme: light;
   }
 
@@ -43,7 +43,7 @@
     min-height: 100vh;
     overflow-x: hidden;
     background:
-      radial-gradient(circle at top, color-mix(in srgb, var(--accent) 10%, transparent), transparent 34%),
+      radial-gradient(circle at top, color-mix(in srgb, var(--accent) 12%, transparent), transparent 34%),
       var(--bg);
     color: var(--text-primary);
     font-family: 'DM Sans', system-ui, sans-serif;
@@ -1005,6 +1005,50 @@
 @keyframes scrollPulse {
   0%, 100% { transform: scaleY(1); opacity: 1; }
   50% { transform: scaleY(0.45); opacity: 0.35; }
+}
+
+/* ─── LIGHT MODE ENHANCEMENTS ──────────────────── */
+html:not(.dark) .nav-inner {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+html:not(.dark) .card,
+html:not(.dark) .about-note,
+html:not(.dark) .about-panel,
+html:not(.dark) .contact-panel,
+html:not(.dark) .project-card {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+html:not(.dark) .skill-card {
+  background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+html:not(.dark) .tag {
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border-color: rgba(26, 26, 24, 0.12);
+}
+
+html:not(.dark) .hero-primary {
+  box-shadow: 0 2px 12px rgba(26, 26, 24, 0.12);
+}
+
+html:not(.dark) .page-orb {
+  opacity: 0.16;
+}
+
+html:not(.dark) .page-grid {
+  opacity: 0.22;
+}
+
+html:not(.dark) .project-item::after {
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+
+html:not(.dark) .gallery-card {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 @media (max-width: 768px) {
